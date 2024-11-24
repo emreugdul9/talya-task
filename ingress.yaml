@@ -4,15 +4,15 @@ metadata:
   name: nginx-app-ingress
   namespace: default
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
-    - nginx.hemre.com
-    secretName: example-tls-secret
+    - nginx.local
+    secretName: example-tls-secret 
   rules:
-  - host: nginx.hemre.com
+  - host: nginx.local
     http:
       paths:
       - path: /
@@ -22,3 +22,10 @@ spec:
             name: nginx-app-service
             port:
               number: 80
+      - path: /v2
+        pathType: Prefix
+        backend:
+          service:
+            name: web2
+            port:
+              number: 8080

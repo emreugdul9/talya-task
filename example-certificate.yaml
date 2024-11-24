@@ -8,7 +8,7 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: nginx.hemre.com
+  commonName: nginx.local
   dnsNames:
-  - nginx.hemre.com
+  - nginx.local
   
