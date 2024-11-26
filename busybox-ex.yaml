@@ -1,27 +1,24 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: busybox-deployment
+  name: busybox-pod
   namespace: elk-stack
-  labels:
-    app: busybox
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: busybox
-  template:
-    metadata:
-      labels:
-        app: busybox
-    spec:
-      containers:
-      - name: busybox
-        image: busybox
-        command: ["/bin/sh", "-c"]
-        args:
-        - |
-          while true; do
-            echo "$(date) - ELK Stack test log" >> /var/log/test.log;
-            sleep 5;
-          done
+    containers:
+    - name: busybox
+      image: busybox
+      args:
+        [
+          /bin/sh, 
+          -c,
+          'i=0; while true; do echo "$i: Test log"; i=$((i+1)); sleep 5; done',
+        ]
+      resources:
+        limits:
+          memory: "1Gi"
+          cpu: "500m"
+        requests:
+          memory: "512Mi"
+          cpu: "100m"
+       
+
